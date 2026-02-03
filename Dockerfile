@@ -14,7 +14,6 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Set Puppeteer environment variables
-# Added IS_DOCKER=true so the script knows to go Headless
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
     PUPPETEER_EXECUTABLE_PATH=/usr/bin/google-chrome-stable \
     IS_DOCKER=true
@@ -29,5 +28,5 @@ RUN npm install
 # Bundle app source
 COPY . .
 
-# Start the application
-CMD [ "npm", "start" ]
+# Start the application DIRECTLY (Fixes SIGTERM and saves RAM)
+CMD ["node", "server.js"]
